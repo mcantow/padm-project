@@ -1,6 +1,6 @@
 (define (domain blocksworld)
   (:requirements :strips :negative-preconditions)
-  (:predicates (clear ?x) (onTable ?x) (holding ?x) (on ?x ?y))
+  (:predicates (clear ?x) (onTable ?x) (holding ?x) (on ?x ?y) (onCountertop ?x) (onStovetopBurner ?x) (inDrawer ?x) (poinedAt ?x ?y))
 
   (:action pickup
     :parameters (?ob)
@@ -24,5 +24,12 @@
     :parameters (?ob ?underob)
     :precondition (and (on ?ob ?underob) (clear ?ob) (not (equal ?ob ?underob)))
     :effect (and (holding ?ob) (clear ?underob) (not (on ?ob ?underob)) (not (clear ?ob)))
+  )
+
+  (:action pointat
+    :parameters (?frankaArm ?target)
+    :precondition ()
+    :effect (and (pointedAt ?frankaArm ?target))
+    ;also need to add not pointed at other things as effect
   )
 )
