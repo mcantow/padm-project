@@ -1,6 +1,6 @@
 (define (problem section1)
   (:domain padm-kitchen)
   (:objects sugar_box0 potted_meat_can1 roboArm indigo_drawer_top)
-  (:init (onTable potted_meat_can1) (onBurner sugar_box0) (clear roboArm) )
+  (:init (onTable potted_meat_can1) (onBurner sugar_box0) (clear roboArm))
   (:goal (and (ontable sugar_box0) (inside indigo_drawer_top potted_meat_can1)))
 )

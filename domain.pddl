@@ -2,12 +2,21 @@
   (:requirements :strips :negative-preconditions)
   (:predicates (onTable ?x) (onBurner ?x) (inside ?x ?y) (open ?x) (holding ?x ?y) (clear ?x))
 
-  (:action pickup
+  (:action pickupFromDrawer
+    :parameters (?ob ?drawer ?roboArm)
+    :precondition (and (clear ?roboArm) (open ?drawer) (inside ?drawer ?obj) )
+    :effect (and (holding ?roboArm ?ob) (not (clear ?roboArm)) (not (inside ?drawer ?obj)))
+  )
+  (:action pickupFromTable
     :parameters (?ob ?roboArm)
-    :precondition (and (clear ?roboArm) (onTable ?ob))
+    :precondition (and (clear ?roboArm) (onTable ?ob) )
     :effect (and (holding ?roboArm ?ob) (not (clear ?roboArm)) (not (onTable ?ob)))
   )
-
+  (:action pickupFromBurner
+    :parameters (?ob ?roboArm)
+    :precondition (and (clear ?roboArm) (onBurner ?ob) )
+    :effect (and (holding ?roboArm ?ob) (not (clear ?roboArm)) (not (onBurner ?ob)))
+  )
   (:action openDrawer
     :parameters (?drawer)
     :precondition (and (clear ?roboArm) (not(open ?drawer)) )
