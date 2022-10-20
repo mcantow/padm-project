@@ -7,5 +7,5 @@
  (define (problem pb1)
   (:domain blocksworld)
   (:objects franka sugarBox spamBox)
-  (:init (onStovetopBurner sugarBox) (onCountertop spamBox) (clear a) (clear b) (equal a a) (equal b b))
+  (:init (onStovetopBurner sugarBox) (onCountertop spamBox) (equal sugarBox sugarBox) (equal spamBox spamBox))
   (:goal (and (onCounterTop sugarBox) (inDrawer spamBox))))
