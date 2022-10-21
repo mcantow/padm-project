@@ -1,35 +1,38 @@
-(define (domain blocksworld)
+(define (domain padm-kitchen)
   (:requirements :strips :negative-preconditions)
-  (:predicates (clear ?x) (onTable ?x) (holding ?x) (on ?x ?y) (onCountertop ?x) (onStovetopBurner ?x) (inDrawer ?x) (poinedAt ?x ?y))
-
-  (:action pickup
-    :parameters (?ob)
-    :precondition (and (clear ?ob) (onTable ?ob))
-    :effect (and (holding ?ob) (not (clear ?ob)) (not (onTable ?ob)))
+  (:predicates (onTable ?x ) (onBurner ?x ) (inside ?x ?y ) (open ?x) (holding ?x ) (clearRoboArm))
+  (:action pickupFromDrawer
+    :parameters (?ob ?drawer  )
+    :precondition (and (clearRoboArm) (open ?drawer) (inside ?drawer ?ob) )
+    :effect (and (holding ?ob) (not (clearRoboArm)) (not (inside ?drawer ?ob)))
   )
-
-  (:action putdown
-    :parameters (?ob)
+  
+  (:action pickupFromTable
+    :parameters (?ob   )
+    :precondition (and (clearRoboArm) (onTable ?ob) )
+    :effect (and (holding ?ob) (not (clearRoboArm)) (not (onTable ?ob)))
+  )
+  
+  (:action pickupFromBurner
+    :parameters (?ob )
+    :precondition (and (clearRoboArm) (onBurner ?ob) )
+    :effect (and (holding ?ob) (not (clearRoboArm)) (not (onBurner ?ob)))
+  )
+  
+  (:action openDrawer
+    :parameters (?drawer)
+    :precondition (and (clearRoboArm) (not(open ?drawer)) )
+    :effect (open ?drawer)
+  )
+  
+  (:action putOnTable
+    :parameters (?ob )
     :precondition (holding ?ob)
-    :effect (and (clear ?ob) (onTable ?ob) (not (holding ?ob)))
+    :effect (and (clearRoboArm) (onTable ?ob) (not (holding ?ob)))
   )
-
-  (:action stack
-    :parameters (?ob ?underob)
-    :precondition (and (clear ?underob) (holding ?ob) (not (equal ?ob ?underob)))
-    :effect (and (clear ?ob) (on ?ob ?underob) (not (clear ?underob)) (not (holding ?ob)))
-  )
-
-  (:action unstack
-    :parameters (?ob ?underob)
-    :precondition (and (on ?ob ?underob) (clear ?ob) (not (equal ?ob ?underob)))
-    :effect (and (holding ?ob) (clear ?underob) (not (on ?ob ?underob)) (not (clear ?ob)))
-  )
-
-  (:action pointat
-    :parameters (?frankaArm ?target)
-    :precondition ()
-    :effect (and (pointedAt ?frankaArm ?target))
-    ;also need to add not pointed at other things as effect
+  (:action putInDrawer
+    :parameters (?ob ?drawer)
+    :precondition (and (holding ?ob) (open ?drawer))
+    :effect (and (clearRoboArm) (inside ?drawer ?ob) (not (holding ?ob)))
   )
 )
