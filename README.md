@@ -5,6 +5,7 @@
 2. [Windows Setup](#setup)    
     1. [Init](#init)   
     2. [Subsequent Starts](#subsequent) 
+3. [Section 1](#section1)   
 
 ## Authors <a name="authors"/>
 Paul Calvetti   
@@ -31,3 +32,14 @@ Download [wsl](https://learn.microsoft.com/en-us/windows/wsl/install) to run ubu
 1. wsl
 2. cd padm-project
 3. ./.venv/bin/activate
+
+
+## Section 1 <a name="section1"/>
+### Assumptions made when designing domain
+When designing our domain, we allowed our actions to be relatively general. For example, the pickupFrom{X} actions require the robot arm to be clear and an object to be at the source position. We assume that given these preconditions the robot arm knows how to navigate to these locations and squeeze the object. In future stages, these general actions may need to be combinations of sub actions, like navigate to position, sqeeze claw, lift from position, etc.
+
+### Approach to generate plan
+
+
+### Challenges
+We had issues getting the simulator to run. We are both working on windows, and ultiimately one of us is running the windows setup described above and the other is running an ubuntu vm. We found working with the pddl library to be pretty straightforward and our custom planner is working as expected.
