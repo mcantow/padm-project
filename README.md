@@ -36,10 +36,20 @@ Download [wsl](https://learn.microsoft.com/en-us/windows/wsl/install) to run ubu
 
 ## Section 1 <a name="section1"/>
 ### Assumptions made when designing domain
-When designing our domain, we allowed our actions to be relatively general. For example, the pickupFrom{X} actions require the robot arm to be clear and an object to be at the source position. We assume that given these preconditions the robot arm knows how to navigate to these locations and squeeze the object. In future stages, these general actions may need to be combinations of sub actions, like navigate to position, sqeeze claw, lift from position, etc.
+When designing our domain, we allowed our actions to be relatively general. For example, the pickupFrom{X} actions require the robot arm to be clear and an object to be at the source position. We assume that given these preconditions, the robot arm knows how to navigate to these locations and squeeze the object. In future stages, these general actions may need to be combinations of sub actions, like navigate to position, squeeze claw, lift from position, etc. We also assume there is only one robot arm, but this assumption could be relaxed with a few abstractions in our problem and domain files.
 
 ### Approach to generate plan
+We define the problem initial and goal conditions, as well as the objects in the problem.pddl file. We define the various actions that we can take in the domain.pddl file. 
 
+In the activity planner.py file, we do the work of finding a path from the initial state to the goal state by utilizing the allowed actions. We take advantage of the PDDL_Parser library included in the initial code distribution. Using this, we essentially perform a BFS of our space. More specifically, starting with the start state, we find all actions that are valid (using our get\_available\_actions function). For each of these actions, we generate a new state (using our update\_state function) which reflects what our state is after executed a certain action from the previous state. We repeat this process until we either exhaust our search space, or find a solution.
+
+Our get\_available\_actions function essentially takes in the current state and a list of all the potential actions. It checks if the state has all positive preconditions of the action and none of the negative preconditions of the action. If this is the case, then that action is added to the list of potential actions.
+
+Our update\_state function take in an initial state and action and returns an updated state based on what it would be after the execution of that action. The way this is done is it takes the union of the add effects of the action and the current conditions of the state. It then also adds in any conditions of the current state which are not in the delete effects of the action.
 
 ### Challenges
 We had issues getting the simulator to run. We are both working on windows, and ultiimately one of us is running the windows setup described above and the other is running an ubuntu vm. We found working with the pddl library to be pretty straightforward and our custom planner is working as expected.
+
+Another challenge that we are still dealing with is using types in the pddl definition. It seems like doing so would make our code easier to read and would potentially offer runtime improvements. We experimented with using types, but couldn't successfully get the code to work using them at this point.
+
+
