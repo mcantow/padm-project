@@ -43,7 +43,7 @@ We define the problem initial and goal conditions, as well as the objects in the
 
 In the activity planner.py file, we do the work of finding a path from the initial state to the goal state by utilizing the allowed actions. We take advantage of the PDDL_Parser library included in the initial code distribution. Using this, we essentially perform a BFS of our space. More specifically, starting with the start state, we find all actions that are valid (using our get\_available\_actions function). For each of these actions, we generate a new state (using our update\_state function) which reflects what our state is after executed a certain action from the previous state. We repeat this process until we either exhaust our search space, or find a solution. We use a helper function called is\_goal to check if we are in the goal state. It checks if the state contains all the positive goal conditions and none of the negative goal conditions.
 
-I will also describe a few of the helper functions used in our implementation.
+I will also describe a few of the helper functions used in our implementation:
 
 Our get\_available\_actions function essentially takes in the current state and a list of all the potential actions. It checks if the state has all positive preconditions of the action and none of the negative preconditions of the action. If this is the case, then that action is added to the list of potential actions.
 
