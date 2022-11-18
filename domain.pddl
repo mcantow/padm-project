@@ -1,9 +1,9 @@
 (define (domain padm-kitchen)
   (:requirements :strips :negative-preconditions)
-  (:predicates (onTable ?x ) (onBurner ?x ) (inside ?x ?y ) (open ?x) (holding ?x ) (clearRoboArm))
+  (:predicates (onTable ?x ) (onBurner ?x ) (inside ?x ?y ) (closed ?x) (holding ?x ) (clearRoboArm))
   (:action pickupFromDrawer
     :parameters (?ob ?drawer  )
-    :precondition (and (clearRoboArm) (open ?drawer) (inside ?drawer ?ob) )
+    :precondition (and (clearRoboArm) (not(closed ?drawer)) (inside ?drawer ?ob) )
     :effect (and (holding ?ob) (not (clearRoboArm)) (not (inside ?drawer ?ob)))
   )
   
@@ -21,8 +21,8 @@
   
   (:action openDrawer
     :parameters (?drawer)
-    :precondition (and (clearRoboArm) (not(open ?drawer)) )
-    :effect (open ?drawer)
+    :precondition (and (clearRoboArm) (closed ?drawer) )
+    :effect (not(closed ?drawer))
   )
   
   (:action putOnTable
@@ -32,7 +32,7 @@
   )
   (:action putInDrawer
     :parameters (?ob ?drawer)
-    :precondition (and (holding ?ob) (open ?drawer))
+    :precondition (and (holding ?ob) (not(closed ?drawer)) )
     :effect (and (clearRoboArm) (inside ?drawer ?ob) (not (holding ?ob)))
   )
 )

@@ -66,7 +66,15 @@ class ActivityPlanner:
             if condition not in state:
                 updated_state.append(condition)
         return updated_state
-        
+
+def get_activity_plan():
+    parser = PDDL_Parser()
+    parser.parse_domain('domain.pddl')
+    parser.parse_problem('problem.pddl')
+    planner = ActivityPlanner()
+    plan = planner.mySolve(parser)
+    return plan
+
 if __name__ == "__main__":
     parser = PDDL_Parser()
     parser.parse_domain('domain.pddl')
