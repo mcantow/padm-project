@@ -152,8 +152,11 @@ class simulation():
           '''
           Moves the robot arm and the potted_meat_can to the drawer location
           '''
-          drawer_pose = get_drawer_pos(self.world)
-          change_object_position(self.world, 'potted_meat_can', drawer_pose)
+          goal_position, _ = get_drawer_pos(self.world)
+          goal_position = list(goal_position)
+          goal_position[0] = goal_position[0] + 0.2 #front of drawer
+          goal_position = tuple(goal_position)
+          change_object_position(self.world, 'potted_meat_can', (goal_position, _))
 
      def pickupfromburner(self):
           '''
@@ -235,20 +238,19 @@ class simulation():
         action_to_robot_joint_positions_dict = {}
         current_pose = None
         for action in self.actions:
-                
-               if action in ["opendrawer", "putindrawer"]:
-                    continue
+
                if action == 'pickupfromtable':
                     print('PLANNING FOR Picking up object from table')
                     goal_position, goal_quat = get_object_pos(self.world, 'potted_meat_can')
                     joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose)
                     
-                    
                elif action == 'putindrawer':
                     print('PLANNING FOR Putting object in drawer')
                     goal_position, goal_quat = get_drawer_pos(self.world)
-                    #joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose)
-                    joint_path = []
+                    goal_position = list(goal_position)
+                    goal_position[0] = goal_position[0] + 0.3 #front of drawer
+                    goal_position = tuple(goal_position)
+                    joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose)
                     
                elif action == 'pickupfromburner':
                     print('PLANNING FOR Picking up object from burner')
@@ -260,12 +262,22 @@ class simulation():
                     goal_position, goal_quat = get_counter_pos(self.world)
                     joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose, epsilon=.18)
 
-                    
+               elif action == 'grabdrawer':
+                    print('PLANNING FOR Grab Drawer')
+                    goal_position, goal_quat = get_drawer_pos(self.world)
+                    goal_position = list(goal_position)
+                    goal_position[0] = goal_position[0] + 0.3 #front of drawer
+                    goal_position = tuple(goal_position)
+                    joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose)
+
                elif action == 'opendrawer':
                     print('PLANNING FOR Opening drawer')
                     goal_position, goal_quat = get_drawer_pos(self.world)
-                    #joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose)
-                    joint_path = []
+                    goal_position = list(goal_position)
+                    goal_position[0] = goal_position[0] + 1 #front of drawer
+                    goal_position = tuple(goal_position)
+                    joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose)
+
                action_to_robot_joint_positions_dict[action] = joint_path
                current_joint_config = joint_path[-1]
                set_joint_positions(self.world.robot, self.ik_joints, current_joint_config)
@@ -273,21 +285,19 @@ class simulation():
         self.action_to_robot_joint_positions_dict = action_to_robot_joint_positions_dict
      
      def execute_robot_action(self, action, relevant_object=None):
-     	robot_joint_positions = self.action_to_robot_joint_positions_dict[action]
-     	for joint_position in robot_joint_positions:
-     		set_joint_positions(self.world.robot, self.world.arm_joints, joint_position)
-     		if relevant_object is not None:
-         		#get arm position
-         		current_pose = get_link_pose(self.world.robot, self.tool_link)
-         		current_arm_position = current_pose[0]
-         		#set relevant object to that position
-         		change_object_position(self.world, relevant_object, current_pose)
-     		time.sleep(.02)
+          robot_joint_positions = self.action_to_robot_joint_positions_dict[action]
+          for joint_position in robot_joint_positions:
+               set_joint_positions(self.world.robot, self.world.arm_joints, joint_position)
+               if relevant_object is not None:
+                    #get arm position
+                    current_pose = get_link_pose(self.world.robot, self.tool_link)
+                    current_arm_position = current_pose[0]
+                    #set relevant object to that position
+                    change_object_position(self.world, relevant_object, current_pose)
+                    time.sleep(.02)
      
      def run_simulation(self):
           for action in self.actions:
-               #if action in ["opendrawer", "putindrawer"]:
-               #     continue
                print("executing_action", action)
                wait_for_user()
                
@@ -299,7 +309,6 @@ class simulation():
                     print('Putting object in drawer')
                     self.putindrawer()
                elif action == 'pickupfromburner':
-                    
                     print('Picking up object from burner')
                     self.execute_robot_action(action)
                     self.pickupfromburner()
@@ -307,9 +316,14 @@ class simulation():
                     print('Putting object on table')
                     self.execute_robot_action(action, relevant_object="sugar_box")
                     self.putontable()
+               elif action == 'grabdrawer':
+                    print('Grabbing drawer')
+                    self.execute_robot_action(action)
                elif action == 'opendrawer':
                     print('Opening drawer')
+                    self.execute_robot_action(action)
                     self.opendrawer()
+                    
           wait_for_user()
           self.world.destroy()
 

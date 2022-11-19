@@ -6,6 +6,7 @@
     1. [Init](#init)   
     2. [Subsequent Starts](#subsequent) 
 3. [Section 1](#section1)   
+4. [Section 2](#section2)   
 
 ## Authors <a name="authors"></a>
 Paul Calvetti   
@@ -22,11 +23,18 @@ Download [wsl](https://learn.microsoft.com/en-us/windows/wsl/install) to run ubu
 1. wsl
 3. git clone --recurse-submodules https://github.com/mcantow/padm-project.git 
 4. cd padm-project
-5. python3 -m venv .venv && source ./.venv/bin/activate
-6. export DISPLAY=:0
-7. pip install numpy
-8. pip install pybullet
-9. cd padm-project-2022f/ && python minimal_example.py
+5. cd padm-project-2022f && pip install -r requirements.txt
+6. cd ss-pybullet/pybullet_tools/ikfast/franka_panda/ && \
+    python3 setup.py
+    cd - && cd pddl-parser && \
+    sudo python3 setup.py install
+7. python3 -m venv .venv && source ./.venv/bin/activate
+8. export DISPLAY=:0
+9. pip install numpy
+10. pip install pybullet
+11. pip install gitmodules
+12. pip install padm-project-2022f/pddl-parser
+11. cd padm-project-2022f/ && python minimal_example.py
 
 ### Subsequent Starts <a name="subsequent"></a>
 1. wsl
@@ -55,3 +63,17 @@ We had issues getting the simulator to run. We are both working on windows, and 
 Another challenge that we are still dealing with is using types in the pddl definition. It seems like doing so would make our code easier to read and would potentially offer runtime improvements. We experimented with using types, but couldn't successfully get the code to work using them at this point.
 
 
+## Section 1 <a name="section1"></a>
+### Assumptions made when designing domain
+First, we hard coded the base to move near the objects we need to interact with. Since these objects are all reachable from a fixed base point, we deterministically move there to reduce complexity when we later run RRT. We also hard coded the objects to move with the arm. Once the arm is within epsilon of an object and we run a grab action, this object is hard coded to move with the arm.
+
+### Explain the files and the motion planners you implemented
+The new files we added were run_simulation.py and initial_simulation.py. run_simulation contains all the code for this section, its main function executes the simulation showing the motion plan for each of the activity plan actions.
+
+### Explain how you integrated the activity plan with the motion plan
+The run_simulation file calls our activity planner, which turns a list of strings representing actions to execute the objectives. For each of these actions, our planner maps the string to a function that computes a goal position. It then runs a custom implementation of RRT based on the position of the arm with collision checking to generate a motion plan consisting of arm positions. The plans are then concatenated and executed. 
+
+### Challenges
+We originally had just a open drawer function, and not a go to drawer function. Because of the way the motion planner ended up getting coded, it made the most sense to add a go to drawer function before the open drawer function. We had to make the according change in our domain and problem files, which made this step trivially integrate with the code to move the boxes. 
+
+We found pybullet difficult to work with. There were several thousands of lines of code with no documentation. The minimal_example.py provided was useful but we still found the experience somewhat cumbersome. 

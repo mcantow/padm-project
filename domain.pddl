@@ -2,7 +2,7 @@
   (:requirements :strips :negative-preconditions)
   (:predicates (onTable ?x ) (onBurner ?x ) (inside ?x ?y ) (closed ?x) (holding ?x ) (clearRoboArm))
   (:action pickupFromDrawer
-    :parameters (?ob ?drawer  )
+    :parameters (?ob ?drawer )
     :precondition (and (clearRoboArm) (not(closed ?drawer)) (inside ?drawer ?ob) )
     :effect (and (holding ?ob) (not (clearRoboArm)) (not (inside ?drawer ?ob)))
   )
@@ -18,11 +18,17 @@
     :precondition (and (clearRoboArm) (onBurner ?ob) )
     :effect (and (holding ?ob) (not (clearRoboArm)) (not (onBurner ?ob)))
   )
+
+  (:action grabDrawer
+    :parameters (?drawer )
+    :precondition (clearRoboArm)
+    :effect (and (holding ?drawer) (not (clearRoboArm)))
+  )
   
   (:action openDrawer
     :parameters (?drawer)
-    :precondition (and (clearRoboArm) (closed ?drawer) )
-    :effect (not(closed ?drawer))
+    :precondition (and  (holding ?drawer) (closed ?drawer) )
+    :effect (and (not(closed ?drawer)) (not(holding ?drawer)) (clearRoboArm))
   )
   
   (:action putOnTable
