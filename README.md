@@ -63,7 +63,7 @@ We had issues getting the simulator to run. We are both working on windows, and 
 Another challenge that we are still dealing with is using types in the pddl definition. It seems like doing so would make our code easier to read and would potentially offer runtime improvements. We experimented with using types, but couldn't successfully get the code to work using them at this point.
 
 
-## Section 1 <a name="section1"></a>
+## Section 2 <a name="section1"></a>
 ### Assumptions made when designing domain
 First, we hard coded the base to move near the objects we need to interact with. Since these objects are all reachable from a fixed base point, we deterministically move there to reduce complexity when we later run RRT. We also hard coded the objects to move with the arm. Once the arm is within epsilon of an object and we run a grab action, this object is hard coded to move with the arm.
 
