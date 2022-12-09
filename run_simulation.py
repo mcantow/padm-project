@@ -147,6 +147,9 @@ class simulation():
           '''
           goal_pose = get_object_pos(self.world, 'potted_meat_can')
           print(goal_pose)
+          current_pose =  get_link_pose(self.world.robot, self.tool_link)
+          print(current_pose)
+          
 
      def putindrawer(self):
           '''
@@ -242,7 +245,13 @@ class simulation():
                if action == 'pickupfromtable':
                     print('PLANNING FOR Picking up object from table')
                     goal_position, goal_quat = get_object_pos(self.world, 'potted_meat_can')
-                    joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose)
+                    print("for making plan", goal_position)
+                    goal_position = list(goal_position)
+                    goal_position[2] = goal_position[2] + 0.1 #top of meat can
+                    goal_position[0] = goal_position[0] - 0.1
+                    goal_position = tuple(goal_position)
+                    joint_path = self.plan_to_goal_position(goal_position, start_pose=current_pose, epsilon=.14)
+                    print(joint_path)
                     
                elif action == 'putindrawer':
                     print('PLANNING FOR Putting object in drawer')
@@ -293,8 +302,9 @@ class simulation():
                     current_pose = get_link_pose(self.world.robot, self.tool_link)
                     current_arm_position = current_pose[0]
                     #set relevant object to that position
+                    
                     change_object_position(self.world, relevant_object, current_pose)
-                    time.sleep(.02)
+               time.sleep(.02)
      
      def run_simulation(self):
           for action in self.actions:
@@ -303,10 +313,12 @@ class simulation():
                
                if action == 'pickupfromtable':
                     print('Picking up object from table')
-                    self.execute_robot_action(action, relevant_object="potted_meat_can")
+                    #self.execute_robot_action(action, relevant_object="potted_meat_can")
+                    self.execute_robot_action(action)
                     self.pickupfromtable()
                elif action == 'putindrawer':
                     print('Putting object in drawer')
+                    self.execute_robot_action(action, relevant_object="potted_meat_can")
                     self.putindrawer()
                elif action == 'pickupfromburner':
                     print('Picking up object from burner')
