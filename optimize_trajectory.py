@@ -20,6 +20,7 @@ class trajectoryOptimizer():
         self.trajopt = KinematicTrajectoryOptimization(self.sampleArray.shape[0], self.sampleArray.shape[1])
 
     def addConstraints(self):
+        print('adding constraints')
         # start at motion planner trajectory start position
         self.trajopt.AddPathPositionConstraint(self.sampleArray[:,0], self.sampleArray[:,0], 0) # start at start pose
         # end at motion planner trajectory goal position
@@ -28,6 +29,7 @@ class trajectoryOptimizer():
         self.trajopt.AddPathLengthCost()
 
     def optimizeTrajectory(self):
+        print('optimizing')
         self.trajopt.SetInitialGuess(self.pydrakeToOptimize)
         solveResult = Solve(self.trajopt.prog())
         traj = self.trajopt.ReconstructTrajectory(solveResult)
@@ -40,10 +42,12 @@ class trajectoryOptimizer():
         this returns that result as a list of tuples to 
         match the input formatting
         '''
+        print('restoring original formatting')
         return [tuple(j for j in pydrakeRes[pos_i].T[0]) for pos_i in range(len(pydrakeRes))]
 
     
     def solveProblem(self):
+        print('solving problem')
         self.addConstraints()
         result = self.optimizeTrajectory()
         formatted = self.restoreListOfTupleFormatting(result)
