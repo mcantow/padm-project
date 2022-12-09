@@ -74,7 +74,7 @@ The new files we added were run_simulation.py and initial_simulation.py. run_sim
 The run_simulation file calls our activity planner, which turns a list of strings representing actions to execute the objectives. For each of these actions, our planner maps the string to a function that computes a goal position. It then runs a custom implementation of RRT based on the position of the arm with collision checking to generate a motion plan consisting of arm positions. The plans are then concatenated and executed. 
 
 ### Gif
-![gif-broken](https://github.com/mcantow/padm-project/unoptimized.gif)
+![gif-broken](https://github.com/mcantow/padm-project/blob/main/unoptimized.gif)
 
 ### Challenges
 We originally had just a open drawer function, and not a go to drawer function. Because of the way the motion planner ended up getting coded, it made the most sense to add a go to drawer function before the open drawer function. We had to make the according change in our domain and problem files, which made this step trivially integrate with the code to move the boxes. 
