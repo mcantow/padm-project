@@ -106,7 +106,7 @@ Acceleration bound
 
 $\sqrt{\sum_{j=1,2,3,4,5,6,7}\left((Y_i[j] - Y_{i+1}[j]) - (Y_{i+1}[j] - Y_{i+2}[j])\right)^2}\in[-.1,.1]  \forall  i \in \{1,2,...,n-2\}$
 
-$(Y_i[j] - Y_{i+1}[j]) - (Y_{i+1}[j] - Y_{i+2}[j])\in[-.1,.1]  \forall  i \in \{1,2,...,n-2\}, j\in\{1,2,3,4,5,6,7\}$
+$-0.1 \leq (Y_i[j] - Y_{i+1}[j]) - (Y_{i+1}[j] - Y_{i+2}[j])\leq 0.1  \forall  i \in \{1,2,...,n-2\}, j\in\{1,2,3,4,5,6,7\}$
 
 Objective
 
