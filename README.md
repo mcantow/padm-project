@@ -95,12 +95,23 @@ Input $X = [X_1, X_2, ...,X_n]$ where $X_i$ is the $i$ith assignment of joint po
 Output $Y = [Y_1, Y_2, ...,Y_n]$ where $X_i$ is the $i$ith assignment of joint positions in our non-optimized path.
 
 Constraints
+
+Start and end positions are the same as our sample trajectory
+
 $Y_1 == X_1$
+
 $Y_n == X_n$
+
+Acceleration bound
+
+$\sqrt{\sum_{j=1,2,3,4,5,6,7}\left((Y_i[j] - Y_{i+1}[j]) - (Y_{i+1}[j] - Y_{i+2}[j])\right)^2}  \forall  i \in \{1,2,...,n-2\}$
 
 
 Objective
-$\underset{Y}{\operatorname{argmin}} \sum_{i=1,...,n-1} |Y[i]-Y[i-1]|_2$
+
+Minimize the l2 distance of the joint movement.
+
+$\underset{Y}{\operatorname{argmin}} \sum_{i=1,...,n-1} |Y_i-Y_{i-1}|_2$
 
 
 ### Gif
