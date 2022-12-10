@@ -95,7 +95,7 @@ In this section, we added 4 main files: optimize_trajectory.py, optimize_run_sim
 Input $X = [X_1, X_2, ...,X_n]$ where $X_i$ is the $i$ith assignment of joint positions in our non-optimized path.
 Output $Y = [Y_1, Y_2, ...,Y_n]$ where $X_i$ is the $i$ith assignment of joint positions in our non-optimized path.
 
-Constraints
+<ins>Constraints</ins>
 
 Start and end positions are the same as our sample trajectory
 
@@ -107,7 +107,7 @@ Jerk bound
 
 $\left((Y_i[j] - Y_{i+1}[j]) - (Y_{i+1}[j] - Y_{i+2}[j])\right) - \left((Y_{i+1}[j] - Y_{i+2}[j]) - (Y_{i+2}[j] - Y_{i+3}[j])\right) == 0 \forall  i \in \{1,2,...,n-3\}, j\in\{1,2,3,4,5,6,7\}$
 
-Objective
+<ins>Objective</ins>
 
 Minimize the l2 distance of the joint movement.
 
