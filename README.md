@@ -91,7 +91,7 @@ We found pybullet difficult to work with. There were several thousands of lines 
 ### Explain what optimization problem you are trying to solve and why
 
 ### Formalize the constrained optimization problem using mathematical symbols and relationships 
-
+Input X = [X_1, X_2, ...,X_n]
 
 ### Gif
 ![gif-broken](https://github.com/mcantow/padm-project/blob/main/optimized.gif)
