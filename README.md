@@ -6,7 +6,8 @@
     1. [Init](#init)   
     2. [Subsequent Starts](#subsequent) 
 3. [Section 1](#section1)   
-4. [Section 2](#section2)   
+4. [Section 2](#section2) 
+4. [Section 3](#section3)   
 
 ## Authors <a name="authors"></a>
 Paul Calvetti   
@@ -80,3 +81,20 @@ The run_simulation file calls our activity planner, which turns a list of string
 We originally had just a open drawer function, and not a go to drawer function. Because of the way the motion planner ended up getting coded, it made the most sense to add a go to drawer function before the open drawer function. We had to make the according change in our domain and problem files, which made this step trivially integrate with the code to move the boxes. 
 
 We found pybullet difficult to work with. There were several thousands of lines of code with no documentation. The minimal_example.py provided was useful but we still found the experience somewhat cumbersome. 
+
+
+## Section 3 <a name="section3"></a>
+### Explain the files, key functions, and the solver you used
+
+### Explain what optimization problem you are trying to solve and why
+
+### Formalize the constrained optimization problem using mathematical symbols and relationships 
+
+
+### Gif
+![gif-broken](https://github.com/mcantow/padm-project/blob/main/optimized.gif)
+
+### Challenges
+
+
+### Compare the resulting optimized trajectory to the initial sample-based motion plan

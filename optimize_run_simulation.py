@@ -51,7 +51,7 @@ if __name__ == '__main__':
     #  sim.pickle_simulation_steps()
 
      ## optimize the saved action plan
-     sim.optimize_simulation_step('putindrawer') # TRAJECTORY OPTIMIZATION
+    #  sim.optimize_simulation_step('putindrawer') # TRAJECTORY OPTIMIZATION
 
      ## run non optimized simulation
     #  sim.move_robot_into_position()
@@ -64,8 +64,3 @@ if __name__ == '__main__':
      sim.make_activity_plan()
      sim.load_opt_simulation_steps()
      sim.run_simulation()
-
-    #  for action in sim.action_to_robot_joint_positions_dict.keys():
-    #     print(action, len(sim.action_to_robot_joint_positions_dict[action]))
-    #  sim.optimize_simulation_step('pickupfromtable') # TRAJECTORY OPTIMIZATION
-    #  sim.run_simulation()

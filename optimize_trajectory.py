@@ -29,9 +29,11 @@ class trajectoryOptimizer():
         self.trajopt.AddPathPositionConstraint(lb2, ub2, 1) # end at end pose
         # optimize over path length
         self.trajopt.AddPathLengthCost()
-        accBound = np.array([0 for _ in range(7)]).T
-        # print(accBound.shape)
-        self.trajopt.AddJerkBounds(-accBound, accBound)
+        self.trajopt.AddDurationCost()
+
+        # constrain all decision variables
+        lb3, ub3 = np.array([0 for _ in range(7)]).T, np.array([0 for _ in range(7)]).T
+        self.trajopt.AddJerkBounds(lb3, ub3)
 
     def optimizeTrajectory(self):
         print('optimizing')
