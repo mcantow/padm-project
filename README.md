@@ -116,6 +116,9 @@ $\underset{Y}{\operatorname{argmin}} \sum_{i=1,...,n-1} |Y_i-Y_{i-1}|_2$
 
 
 ### Gif
+
+We optimized the movetodrawer action. All the other actions are generated using RRt (as in part 2). Thus, we see the some of the other actions do not follow efficient paths. We do see the movement of the potted meat can into the drawer follows a smooth, optiimized path, as desired.
+
 ![gif-broken](https://github.com/mcantow/padm-project/blob/main/optimized.gif)
 
 ### Challenges
