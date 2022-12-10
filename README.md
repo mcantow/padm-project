@@ -120,6 +120,11 @@ $\underset{Y}{\operatorname{argmin}} \sum_{i=1,...,n-1} |Y_i-Y_{i-1}|_2$
 ![gif-broken](https://github.com/mcantow/padm-project/blob/main/optimized.gif)
 
 ### Challenges
+Before we implemented the functionality to pickle our motion plans and load them when working on the optimization step, we were constantly rerunning RRT to generate a motion plan. This was taking a long time (~1 minute) to run and made debugging extremely slow. Once we realized we could save these results and load them very quickly, our workflow became much simpler and our laptops cooled down. We would recommend suggesting this to students in future project years. 
+
+When framing the optimization problem, we found it fairly intuitive to set the initial and goal position constraints by using AddPathPositionConstraint at the beginning and end of the trajectory with the position our motion planner generated. We also found it intuitive to AddPathLengthCost() to optimize over the trajectory path length. We ran into issues with the solver taking very long to run with those constraints. Eventually we realized that this was due to unconstrained variables, so to resolve that issue we constrained Jerk to be zero throughout the trajectory. This resolved the issue and generated a nice path.
+
+Lastly, we chose to optimize the place object in drawer action because it did not have issues with obstacles. We could have added additional position constraints for the other actions, but we decided that this action was very suboptimal and we could reasonably frame its optimization problem given the time allotted. 
 
 
 ### Compare the resulting optimized trajectory to the initial sample-based motion plan
