@@ -21,16 +21,17 @@ class trajectoryOptimizer():
 
     def addConstraints(self):
         print('adding constraints')
-        epsilon = np.array([0.1 for _ in range(7)])
         # start at motion planner trajectory start position
-        lb, ub = self.sampleArray[:,0] - epsilon, self.sampleArray[:,0] + epsilon
+        lb, ub = self.sampleArray[:,0], self.sampleArray[:,0]
         self.trajopt.AddPathPositionConstraint(lb, ub, 0) # start at start pose
         # end at motion planner trajectory goal position
-        lb2, ub2 = self.sampleArray[:,-1] - epsilon, self.sampleArray[:,-1] + epsilon
+        lb2, ub2 = self.sampleArray[:,-1], self.sampleArray[:,-1]
         self.trajopt.AddPathPositionConstraint(lb2, ub2, 1) # end at end pose
         # optimize over path length
-        self.trajopt.AddPathLengthCost(use_conic_constraint = True)
-        # self.trajopt.AddPathAccelerationConstraint(-epsilon, epsilon)
+        self.trajopt.AddPathLengthCost()
+        accBound = np.array([0 for _ in range(7)]).T
+        # print(accBound.shape)
+        self.trajopt.AddJerkBounds(-accBound, accBound)
 
     def optimizeTrajectory(self):
         print('optimizing')

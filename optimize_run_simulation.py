@@ -60,10 +60,10 @@ if __name__ == '__main__':
     #  sim.run_simulation()
 
      ## run optimized simulation
-    #  sim.move_robot_into_position()
-    #  sim.make_activity_plan()
-    #  sim.load_opt_simulation_steps()
-    #  sim.run_simulation()
+     sim.move_robot_into_position()
+     sim.make_activity_plan()
+     sim.load_opt_simulation_steps()
+     sim.run_simulation()
 
     #  for action in sim.action_to_robot_joint_positions_dict.keys():
     #     print(action, len(sim.action_to_robot_joint_positions_dict[action]))
