@@ -91,6 +91,7 @@ In this section, we added 4 main files: optimize_trajectory.py, optimize_run_sim
 
 ### Explain what optimization problem you are trying to solve and why
 
+
 ### Formalize the constrained optimization problem using mathematical symbols and relationships 
 Input $X = [X_1, X_2, ...,X_n]$ where $X_i$ is the $i$ith assignment of joint positions in our non-optimized path.
 Output $Y = [Y_1, Y_2, ...,Y_n]$ where $X_i$ is the $i$ith assignment of joint positions in our non-optimized path.
@@ -126,3 +127,4 @@ Lastly, we chose to optimize the place object in drawer action because it did no
 
 
 ### Compare the resulting optimized trajectory to the initial sample-based motion plan
+Our original trajectories are mostly very suboptimal with the exception of moving the box to the counter, which was a simple operation. This makes sense given we computed them with RRT, randomly exploring over the arm position space and taking the first collision free trajectory we could find. We optimized the action of moving the can from the counter to the drawer, which originally took a long unnecessary upward arc. After our optimization, the arm takes a pretty direct path from source to goal. This can be visualized by comparing the gif in section 2 to the gif in section 3 for that actions. Note we did not optimize the other actions.
