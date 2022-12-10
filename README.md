@@ -91,7 +91,17 @@ We found pybullet difficult to work with. There were several thousands of lines 
 ### Explain what optimization problem you are trying to solve and why
 
 ### Formalize the constrained optimization problem using mathematical symbols and relationships 
-Input X = [X_1, X_2, ...,X_n]
+Input $X = [X_1, X_2, ...,X_n]$ where $X_i$ is the $i$ith assignment of joint positions in our non-optimized path.
+Output $Y = [Y_1, Y_2, ...,Y_n]$ where $X_i$ is the $i$ith assignment of joint positions in our non-optimized path.
+
+Constraints
+Y_1 == X_1
+Y_n == X_n
+
+
+Objective
+$\underset{Y}{\operatorname{argmin}} \sum_{i=0}^{n-1} |Y[i]-Y[i=1]|_2$
+
 
 ### Gif
 ![gif-broken](https://github.com/mcantow/padm-project/blob/main/optimized.gif)
