@@ -95,12 +95,12 @@ Input $X = [X_1, X_2, ...,X_n]$ where $X_i$ is the $i$ith assignment of joint po
 Output $Y = [Y_1, Y_2, ...,Y_n]$ where $X_i$ is the $i$ith assignment of joint positions in our non-optimized path.
 
 Constraints
-Y_1 == X_1
-Y_n == X_n
+$Y_1 == X_1$
+$Y_n == X_n$
 
 
 Objective
-$\underset{Y}{\operatorname{argmin}} \sum_{i=0}^{n-1} |Y[i]-Y[i=1]|_2$
+$\underset{Y}{\operatorname{argmin}} \sum_{i=1,...,n-1} |Y[i]-Y[i-1]|_2$
 
 
 ### Gif
