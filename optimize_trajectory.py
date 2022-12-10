@@ -13,7 +13,7 @@ class trajectoryOptimizer():
         # format as array for pydrake
         self.sampleArray = np.array(trajectory).T
         # create basis object with order 3, order was chosen somewhat arbitrarily
-        self.basis = BsplineBasis(3,self.sampleArray.shape[1],KnotVectorType.kClampedUniform)
+        self.basis = BsplineBasis(4,self.sampleArray.shape[1],KnotVectorType.kUniform)
         # make trajectory object to optimize
         self.pydrakeToOptimize = BsplineTrajectory(self.basis, self.sampleArray)
         # make trajectory optimization problem object
@@ -21,17 +21,23 @@ class trajectoryOptimizer():
 
     def addConstraints(self):
         print('adding constraints')
+        epsilon = np.array([0.1 for _ in range(7)])
         # start at motion planner trajectory start position
-        self.trajopt.AddPathPositionConstraint(self.sampleArray[:,0], self.sampleArray[:,0], 0) # start at start pose
+        lb, ub = self.sampleArray[:,0] - epsilon, self.sampleArray[:,0] + epsilon
+        self.trajopt.AddPathPositionConstraint(lb, ub, 0) # start at start pose
         # end at motion planner trajectory goal position
-        self.trajopt.AddPathPositionConstraint(self.sampleArray[:,-1], self.sampleArray[:,-1], 1) # end at end pose
+        lb2, ub2 = self.sampleArray[:,-1] - epsilon, self.sampleArray[:,-1] + epsilon
+        self.trajopt.AddPathPositionConstraint(lb2, ub2, 1) # end at end pose
         # optimize over path length
-        self.trajopt.AddPathLengthCost()
+        self.trajopt.AddPathLengthCost(use_conic_constraint = True)
+        # self.trajopt.AddPathAccelerationConstraint(-epsilon, epsilon)
 
     def optimizeTrajectory(self):
         print('optimizing')
         self.trajopt.SetInitialGuess(self.pydrakeToOptimize)
+        print('solving problem')
         solveResult = Solve(self.trajopt.prog())
+        print('reconstructing tajectory')
         traj = self.trajopt.ReconstructTrajectory(solveResult)
         res = traj.control_points()
         return(res)

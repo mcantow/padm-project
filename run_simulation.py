@@ -133,7 +133,7 @@ class simulation():
           self.actions = []
           
           self.ik_joints = get_ik_joints(self.world.robot, PANDA_INFO, self.tool_link)
-          self.action_to_robot_joint_positions_dict = None
+          self.action_to_robot_joint_positions_dict = {}
      
      def make_activity_plan(self):
           plan = get_activity_plan()
