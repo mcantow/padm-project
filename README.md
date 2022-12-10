@@ -74,6 +74,8 @@ The new files we added were run_simulation.py and initial_simulation.py. run_sim
 ### Explain how you integrated the activity plan with the motion plan
 The run_simulation file calls our activity planner, which turns a list of strings representing actions to execute the objectives. For each of these actions, our planner maps the string to a function that computes a goal position. It then runs a custom implementation of RRT based on the position of the arm with collision checking to generate a motion plan consisting of arm positions. The plans are then concatenated and executed. 
 
+Our RRT implmented the general algorithm presented in class, but it was a bit more complicated because we had to go between the joint positions and arm positions. Essentially we would randomly generate joint positions using the "sample\_fn" given in the minimal example. We would then find the associated pose and try to move between the randomly generated pose and the clostest one. We used the "closest\_inverse\_kinematics" and "interpolate\_poses" functions of pybullet to find the poses and joint assingments in the path between the poses. Then for each of those we would check for collisions (use a helper function the utilized the built in "pairwise_collision" function) We would repeat this to construct a larger tree. Every 20 loops we would then try to go from each node in our tree (an assignment of joint positions) to the goal pose.  
+
 ### Gif
 ![gif-broken](https://github.com/mcantow/padm-project/blob/main/unoptimized.gif)
 
